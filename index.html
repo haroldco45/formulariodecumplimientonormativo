@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Cumplimiento Normativo — Restaurante</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --negro: #0f0e0c;
+    --dorado: #c8973a;
+    --dorado-claro: #e8b84b;
+    --crema: #f5f0e8;
+    --crema2: #ede6d8;
+    --gris: #6b6560;
+    --rojo: #c0392b;
+    --verde: #1a6b3a;
+    --azul: #1a4a6b;
+    --blanco: #fffdf8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--crema);
+    color: var(--negro);
+    min-height: 100vh;
+  }
+
+  /* ENCABEZADO */
+  .header {
+    background: var(--negro);
+    color: var(--blanco);
+    padding: 36px 48px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--dorado), var(--dorado-claro), var(--dorado));
+  }
+  .header-inner { max-width: 960px; margin: 0 auto; }
+  .header-tag {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--dorado);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .header-sub {
+    font-size: 0.85rem;
+    color: #aaa;
+    font-weight: 300;
+  }
+  .normas-badge {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+  }
+  .badge {
+    background: rgba(200,151,58,0.15);
+    border: 1px solid rgba(200,151,58,0.4);
+    color: var(--dorado-claro);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* CONTENIDO */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
+  }
+
+  /* BARRA DE PROGRESO */
+  .progress-bar-wrap {
+    background: var(--negro);
+    border-radius: 12px;
+    padding: 20px 28px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .progress-label {
+    color: var(--dorado);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--dorado), var(--dorado-claro));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-pct {
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 40px;
+    text-align: right;
+  }
+
+  /* DATOS DEL ESTABLECIMIENTO */
+  .datos-card {
+    background: var(--blanco);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    border: 1px solid var(--crema2);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--negro);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-icon {
+    width: 32px; height: 32px;
+    background: var(--negro);
+    color: var(--dorado);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .form-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+  .form-grid.full { grid-template-columns: 1fr; }
+  @media(max-width:600px) {
+    .form-grid, .form-grid.three { grid-template-columns: 1fr; }
+  }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label {
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--gris);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    border: 1px solid var(--crema2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--negro);
+    background: var(--crema);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--dorado);
+    box-shadow: 0 0 0 3px rgba(200,151,58,0.12);
+    background: #fff;
+  }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+
+  /* SECCIONES NORMATIVAS */
+  .norma-section {
+    background: var(--blanco);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid var(--crema2);
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .norma-header {
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .norma-header:hover { background: var(--crema); }
+  .norma-color {
+    width: 4px;
+    border-radius: 2px;
+    align-self: stretch;
+    flex-shrink: 0;
+  }
+  .norma-info { flex: 1; }
+  .norma-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--negro);
+    margin-bottom: 2px;
+  }
+  .norma-desc {
+    font-size: 0.78rem;
+    color: var(--gris);
+    font-weight: 400;
+  }
+  .norma-stats {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .stat-pill {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+  .stat-ok { background: #d4edda; color: #1a6b3a; }
+  .stat-pendiente { background: #fff3cd; color: #856404; }
+  .stat-critico { background: #f8d7da; color: #721c24; }
+  .chevron {
+    font-size: 18px;
+    color: var(--gris);
+    transition: transform 0.3s;
+  }
+  .norma-section.open .chevron { transform: rotate(180deg); }
+
+  .norma-body {
+    display: none;
+    padding: 0 28px 24px;
+    border-top: 1px solid var(--crema2);
+  }
+  .norma-section.open .norma-body { display: block; }
+
+  /* CHECKLIST */
+  .checklist { margin-top: 16px; }
+  .check-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 12px;
+    align-items: start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--crema2);
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-num {
+    width: 26px; height: 26px;
+    background: var(--crema);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--gris);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .check-text { font-size: 0.88rem; line-height: 1.5; }
+  .check-text strong { font-weight: 600; display: block; margin-bottom: 2px; }
+  .check-text span { color: var(--gris); font-size: 0.8rem; }
+  .check-select select {
+    border: 1px solid var(--crema2);
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 0.78rem;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--crema);
+    cursor: pointer;
+    outline: none;
+  }
+  .check-select select:focus { border-color: var(--dorado); }
+  .check-select select.ok { background: #d4edda; color: #1a6b3a; border-color: #a3d9b1; }
+  .check-select select.pendiente { background: #fff3cd; color: #856404; border-color: #ffc107; }
+  .check-select select.critico { background: #f8d7da; color: #721c24; border-color: #f5c6cb; }
+  .check-select select.na { background: #e2e3e5; color: #383d41; border-color: #d6d8db; }
+  .check-obs input {
+    border: 1px solid var(--crema2);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--crema);
+    width: 140px;
+    outline: none;
+  }
+  .check-obs input:focus { border-color: var(--dorado); background: #fff; }
+
+  /* FRECUENCIA */
+  .freq-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    margin-bottom: 6px;
+  }
+  .freq-label {
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--gris);
+    margin-top: 16px;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .freq-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--crema);
+    border: 1px solid var(--crema2);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.83rem;
+  }
+  .freq-item input[type="date"],
+  .freq-item input[type="text"] {
+    border: 1px solid var(--crema2);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.82rem;
+    font-family: 'DM Sans', sans-serif;
+    background: #fff;
+    outline: none;
+  }
+  .freq-item input:focus { border-color: var(--dorado); }
+  .freq-item label { font-weight: 500; color: var(--negro); white-space: nowrap; }
+
+  /* FIRMAS */
+  .firmas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  @media(max-width:600px) { .firmas-grid { grid-template-columns: 1fr; } }
+  .firma-box {
+    border: 1px dashed var(--crema2);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .firma-line {
+    border-top: 1px solid var(--negro);
+    margin: 40px 12px 8px;
+  }
+  .firma-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--gris); }
+  .firma-input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--crema2);
+    background: transparent;
+    padding: 6px 4px;
+    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    text-align: center;
+    outline: none;
+    margin-top: 8px;
+  }
+  .firma-input:focus { border-color: var(--dorado); }
+
+  /* BOTONES */
+  .actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .btn {
+    padding: 13px 28px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-primary {
+    background: var(--negro);
+    color: var(--dorado);
+  }
+  .btn-primary:hover { background: #2a2925; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.18); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--negro);
+    border: 1px solid var(--crema2);
+  }
+  .btn-secondary:hover { background: var(--crema2); }
+  .btn-danger {
+    background: transparent;
+    color: var(--rojo);
+    border: 1px solid #f5c6cb;
+  }
+  .btn-danger:hover { background: #f8d7da; }
+  .btn-print {
+    background: var(--dorado);
+    color: var(--negro);
+  }
+  .btn-print:hover { background: var(--dorado-claro); transform: translateY(-1px); }
+
+  /* RESUMEN */
+  .resumen-card {
+    background: var(--negro);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    color: var(--blanco);
+  }
+  .resumen-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--dorado);
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+  }
+  .resumen-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media(max-width:600px) { .resumen-grid { grid-template-columns: 1fr 1fr; } }
+  .resumen-item { text-align: center; }
+  .resumen-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    display: block;
+  }
+  .resumen-lbl { font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase; color: #999; margin-top: 2px; }
+  .num-ok { color: #5cb85c; }
+  .num-pend { color: var(--dorado-claro); }
+  .num-crit { color: #e74c3c; }
+  .num-na { color: #aaa; }
+
+  /* ALERTA CRÍTICA */
+  .alerta-critica {
+    background: #fff0f0;
+    border: 1px solid #f5c6cb;
+    border-left: 4px solid var(--rojo);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    color: #721c24;
+    display: none;
+  }
+  .alerta-critica.visible { display: block; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 28px;
+    font-size: 0.75rem;
+    color: var(--gris);
+    border-top: 1px solid var(--crema2);
+    margin-top: 40px;
+  }
+  .footer strong { color: var(--negro); }
+
+  /* HISTORIAL */
+  .historial-item {
+    background: var(--crema);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 0.82rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .historial-fecha { color: var(--gris); font-size: 0.75rem; }
+  .historial-empty { color: var(--gris); font-size: 0.83rem; font-style: italic; }
+
+  @media print {
+    .actions, .progress-bar-wrap { display: none !important; }
+    .norma-body { display: block !important; }
+    body { background: white; }
+    .norma-section, .datos-card, .resumen-card { box-shadow: none; border: 1px solid #ddd; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-tag">📋 Gestión de Seguridad y Cumplimiento</div>
+    <h1>Formulario de Cumplimiento Normativo<br>para Cocinas Comerciales</h1>
+    <div class="header-sub">Conforme a NFPA 96 · Resolución 2674/2013 · Ley 9/1979 · Resolución 2400/1979 · NSR-10</div>
+    <div class="normas-badge">
+      <span class="badge">NFPA 96</span>
+      <span class="badge">Res. 2674/2013</span>
+      <span class="badge">Ley 9/1979</span>
+      <span class="badge">Res. 2400/1979</span>
+      <span class="badge">NSR-10</span>
+      <span class="badge">NTS-TS 004</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- PROGRESO -->
+  <div class="progress-bar-wrap">
+    <span class="progress-label">Cumplimiento total</span>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+
+  <!-- RESUMEN -->
+  <div class="resumen-card">
+    <div class="resumen-title">📊 Estado General del Formulario</div>
+    <div class="resumen-grid">
+      <div class="resumen-item">
+        <span class="resumen-num num-ok" id="totalOk">0</span>
+        <div class="resumen-lbl">Cumple</div>
+      </div>
+      <div class="resumen-item">
+        <span class="resumen-num num-pend" id="totalPend">0</span>
+        <div class="resumen-lbl">Pendiente</div>
+      </div>
+      <div class="resumen-item">
+        <span class="resumen-num num-crit" id="totalCrit">0</span>
+        <div class="resumen-lbl">Crítico</div>
+      </div>
+      <div class="resumen-item">
+        <span class="resumen-num num-na" id="totalNa">0</span>
+        <div class="resumen-lbl">N/A</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERTA CRÍTICA -->
+  <div class="alerta-critica" id="alertaCritica">
+    ⚠️ <strong>Atención:</strong> Existen ítems marcados como <strong>CRÍTICO</strong>. Estos requieren acción inmediata antes de la próxima inspección o apertura del establecimiento.
+  </div>
+
+  <!-- DATOS DEL ESTABLECIMIENTO -->
+  <div class="datos-card">
+    <div class="section-title">
+      <div class="section-icon">🏪</div>
+      Datos del Establecimiento
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Nombre del Establecimiento</label>
+        <input type="text" id="nombre" placeholder="Nombre comercial">
+      </div>
+      <div class="form-group">
+        <label>NIT / Cédula</label>
+        <input type="text" id="nit" placeholder="NIT o cédula del propietario">
+      </div>
+      <div class="form-group">
+        <label>Dirección</label>
+        <input type="text" id="direccion" placeholder="Dirección completa">
+      </div>
+      <div class="form-group">
+        <label>Ciudad / Municipio</label>
+        <input type="text" id="ciudad" placeholder="Ciudad">
+      </div>
+    </div>
+    <div class="form-grid three" style="margin-top:16px;">
+      <div class="form-group">
+        <label>Teléfono de contacto</label>
+        <input type="tel" id="telefono" placeholder="+57 300 000 0000">
+      </div>
+      <div class="form-group">
+        <label>Correo electrónico</label>
+        <input type="email" id="email" placeholder="correo@restaurante.com">
+      </div>
+      <div class="form-group">
+        <label>Tipo de establecimiento</label>
+        <select id="tipo">
+          <option value="">Seleccionar...</option>
+          <option>Restaurante independiente</option>
+          <option>Restaurante en centro comercial</option>
+          <option>Cafetería</option>
+          <option>Bar - Restaurante</option>
+          <option>Cocina de hotel</option>
+          <option>Comedor institucional</option>
+          <option>Food truck / kiosco</option>
+          <option>Panadería - Pastelería</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid three" style="margin-top:16px;">
+      <div class="form-group">
+        <label>Nombre del responsable de seguridad</label>
+        <input type="text" id="responsable" placeholder="Nombre completo">
+      </div>
+      <div class="form-group">
+        <label>Cargo del responsable</label>
+        <input type="text" id="cargo" placeholder="Ej: Administrador, Chef, Propietario">
+      </div>
+      <div class="form-group">
+        <label>Fecha de diligenciamiento</label>
+        <input type="date" id="fechaDilig">
+      </div>
+    </div>
+    <div class="form-grid" style="margin-top:16px;">
+      <div class="form-group">
+        <label>No. Concepto Sanitario / Registro INVIMA</label>
+        <input type="text" id="invima" placeholder="Número del concepto o registro">
+      </div>
+      <div class="form-group">
+        <label>Vigencia del concepto sanitario</label>
+        <input type="date" id="vigenciaSanitario">
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SECCIÓN 1: NFPA 96 - VENTILACIÓN E INCENDIOS ======== -->
+  <div class="norma-section" id="sec1">
+    <div class="norma-header" onclick="toggleSection('sec1')">
+      <div class="norma-color" style="background:#c0392b;"></div>
+      <div class="norma-info">
+        <div class="norma-name">🔥 NFPA 96 — Ventilación y Protección contra Incendios</div>
+        <div class="norma-desc">Sistema de extracción, campanas, ductos, filtros y extinción en cocina</div>
+      </div>
+      <div class="norma-stats" id="stats1"></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="norma-body">
+      <div class="checklist" id="check1"></div>
+      <span class="freq-label">Registros de mantenimiento y limpieza</span>
+      <div class="freq-row">
+        <div class="freq-item"><label>Última limpieza de campana:</label><input type="date" id="f1_1"></div>
+        <div class="freq-item"><label>Próxima limpieza programada:</label><input type="date" id="f1_2"></div>
+        <div class="freq-item"><label>Empresa/técnico responsable:</label><input type="text" id="f1_3" placeholder="Nombre o empresa"></div>
+        <div class="freq-item"><label>Último recargo extintor:</label><input type="date" id="f1_4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SECCIÓN 2: RESOLUCIÓN 2674/2013 ======== -->
+  <div class="norma-section" id="sec2">
+    <div class="norma-header" onclick="toggleSection('sec2')">
+      <div class="norma-color" style="background:#1a6b3a;"></div>
+      <div class="norma-info">
+        <div class="norma-name">🧼 Resolución 2674 de 2013 — Condiciones Sanitarias</div>
+        <div class="norma-desc">Buenas Prácticas de Manufactura, inocuidad y manipulación de alimentos</div>
+      </div>
+      <div class="norma-stats" id="stats2"></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="norma-body">
+      <div class="checklist" id="check2"></div>
+      <span class="freq-label">Fechas clave de cumplimiento sanitario</span>
+      <div class="freq-row">
+        <div class="freq-item"><label>Última capacitación manipuladores:</label><input type="date" id="f2_1"></div>
+        <div class="freq-item"><label>Vencimiento certificados salud:</label><input type="date" id="f2_2"></div>
+        <div class="freq-item"><label>Última visita INVIMA/Secretaría:</label><input type="date" id="f2_3"></div>
+        <div class="freq-item"><label>Próxima visita programada:</label><input type="date" id="f2_4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SECCIÓN 3: NSR-10 + BOMBEROS ======== -->
+  <div class="norma-section" id="sec3">
+    <div class="norma-header" onclick="toggleSection('sec3')">
+      <div class="norma-color" style="background:#c8973a;"></div>
+      <div class="norma-info">
+        <div class="norma-name">🏗️ NSR-10 + Bomberos — Construcción y Emergencias</div>
+        <div class="norma-desc">Estructura, salidas de emergencia, señalización y plan de evacuación</div>
+      </div>
+      <div class="norma-stats" id="stats3"></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="norma-body">
+      <div class="checklist" id="check3"></div>
+      <span class="freq-label">Permisos y revisiones de bomberos</span>
+      <div class="freq-row">
+        <div class="freq-item"><label>Concepto de bomberos (vigencia):</label><input type="date" id="f3_1"></div>
+        <div class="freq-item"><label>Último simulacro de evacuación:</label><input type="date" id="f3_2"></div>
+        <div class="freq-item"><label>Próximo simulacro:</label><input type="date" id="f3_3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SECCIÓN 4: RESOLUCIÓN 2400/1979 - SEGURIDAD INDUSTRIAL ======== -->
+  <div class="norma-section" id="sec4">
+    <div class="norma-header" onclick="toggleSection('sec4')">
+      <div class="norma-color" style="background:#1a4a6b;"></div>
+      <div class="norma-info">
+        <div class="norma-name">⚙️ Resolución 2400/1979 — Seguridad Industrial</div>
+        <div class="norma-desc">Condiciones laborales, ergonomía, EPP y riesgos ocupacionales en cocina</div>
+      </div>
+      <div class="norma-stats" id="stats4"></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="norma-body">
+      <div class="checklist" id="check4"></div>
+    </div>
+  </div>
+
+  <!-- ======== SECCIÓN 5: GAS Y ELECTRICIDAD ======== -->
+  <div class="norma-section" id="sec5">
+    <div class="norma-header" onclick="toggleSection('sec5')">
+      <div class="norma-color" style="background:#6b3a6b;"></div>
+      <div class="norma-info">
+        <div class="norma-name">⚡ Instalaciones de Gas y Eléctricas</div>
+        <div class="norma-desc">RETIE, NTC 2050, NTC 3838 y reglamentación de gas natural / GLP</div>
+      </div>
+      <div class="norma-stats" id="stats5"></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="norma-body">
+      <div class="checklist" id="check5"></div>
+      <span class="freq-label">Revisiones técnicas de instalaciones</span>
+      <div class="freq-row">
+        <div class="freq-item"><label>Último mantenimiento eléctrico:</label><input type="date" id="f5_1"></div>
+        <div class="freq-item"><label>Último mantenimiento de gas:</label><input type="date" id="f5_2"></div>
+        <div class="freq-item"><label>Vencimiento certificado RETIE:</label><input type="date" id="f5_3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SECCIÓN 6: PLAGAS Y RESIDUOS ======== -->
+  <div class="norma-section" id="sec6">
+    <div class="norma-header" onclick="toggleSection('sec6')">
+      <div class="norma-color" style="background:#3a6b3a;"></div>
+      <div class="norma-info">
+        <div class="norma-name">🐛 Control de Plagas y Manejo de Residuos</div>
+        <div class="norma-desc">Programa de saneamiento, fumigación y disposición de residuos sólidos</div>
+      </div>
+      <div class="norma-stats" id="stats6"></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="norma-body">
+      <div class="checklist" id="check6"></div>
+      <span class="freq-label">Registro de fumigaciones y saneamiento</span>
+      <div class="freq-row">
+        <div class="freq-item"><label>Última fumigación:</label><input type="date" id="f6_1"></div>
+        <div class="freq-item"><label>Empresa de fumigación:</label><input type="text" id="f6_2" placeholder="Nombre empresa"></div>
+        <div class="freq-item"><label>Próxima fumigación:</label><input type="date" id="f6_3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBSERVACIONES GENERALES -->
+  <div class="datos-card">
+    <div class="section-title">
+      <div class="section-icon">📝</div>
+      Observaciones Generales y Plan de Acción
+    </div>
+    <div class="form-grid full">
+      <div class="form-group">
+        <label>Observaciones del responsable</label>
+        <textarea id="observaciones" placeholder="Describa hallazgos, compromisos o situaciones especiales..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Plan de acción correctiva (ítems críticos)</label>
+        <textarea id="planAccion" placeholder="Ej: 1. Contratar empresa de limpieza de campanas antes del 30/06..."></textarea>
+      </div>
+    </div>
+    <div class="form-grid three" style="margin-top:16px;">
+      <div class="form-group">
+        <label>Fecha compromiso de subsanación</label>
+        <input type="date" id="fechaCompromiso">
+      </div>
+      <div class="form-group">
+        <label>Calificación general del establecimiento</label>
+        <select id="calGeneral">
+          <option value="">Sin calificar</option>
+          <option>✅ Satisfactorio — Cumple todos los requisitos</option>
+          <option>⚠️ Aceptable — Con observaciones menores</option>
+          <option>🔶 En proceso — Requiere mejoras</option>
+          <option>🔴 Deficiente — Requiere acción inmediata</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Próxima revisión interna</label>
+        <input type="date" id="proxRevision">
+      </div>
+    </div>
+  </div>
+
+  <!-- FIRMAS -->
+  <div class="datos-card">
+    <div class="section-title">
+      <div class="section-icon">✍️</div>
+      Firmas de Responsables
+    </div>
+    <div class="firmas-grid">
+      <div class="firma-box">
+        <input class="firma-input" type="text" placeholder="Nombre completo">
+        <div class="firma-line"></div>
+        <div class="firma-label">Propietario / Gerente</div>
+      </div>
+      <div class="firma-box">
+        <input class="firma-input" type="text" placeholder="Nombre completo">
+        <div class="firma-line"></div>
+        <div class="firma-label">Responsable de Seguridad</div>
+      </div>
+      <div class="firma-box">
+        <input class="firma-input" type="text" placeholder="Nombre completo">
+        <div class="firma-line"></div>
+        <div class="firma-label">Inspector / Auditor externo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div class="datos-card">
+    <div class="section-title">
+      <div class="section-icon">🗂️</div>
+      Historial de Diligenciamientos
+    </div>
+    <div id="historialList">
+      <div class="historial-empty">No hay registros guardados aún.</div>
+    </div>
+  </div>
+
+  <!-- ACCIONES -->
+  <div class="actions">
+    <button class="btn btn-primary" onclick="guardarFormulario()">💾 Guardar Formulario</button>
+    <button class="btn btn-print" onclick="window.print()">🖨️ Imprimir / PDF</button>
+    <button class="btn btn-secondary" onclick="cargarUltimo()">📂 Cargar último guardado</button>
+    <button class="btn btn-danger" onclick="limpiarFormulario()">🗑️ Limpiar formulario</button>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Formulario de Cumplimiento Normativo para Cocinas Comerciales</strong><br>
+  Basado en NFPA 96, Resolución 2674/2013, Ley 9/1979, Resolución 2400/1979 y NSR-10<br><br>
+  Desarrollada por <strong>Vibras Positivas HM</strong> — Derechos de Autor Reservados
+</div>
+
+<script>
+// ============================================================
+// DATOS DE LAS LISTAS DE VERIFICACIÓN
+// ============================================================
+const CHECKLISTS = {
+  1: [ // NFPA 96
+    { text: "Campana extractora de acero inoxidable instalada", sub: "Cubre toda el área de cocción — NFPA 96 Cap. 4" },
+    { text: "Filtros tipo bafle (baffle) en campana", sub: "Para captura de vapores de grasa — NFPA 96 Sec. 4.1" },
+    { text: "Ductos de acero calibre 16 con soldadura continua", sub: "Sin fugas de grasa — NFPA 96 Cap. 7" },
+    { text: "Puertas de inspección cada 3.6 m en ductos", sub: "Y en cada cambio de dirección — NFPA 96 Sec. 7.3" },
+    { text: "Trampas de grasa instaladas y con drenaje", sub: "En puntos estratégicos del sistema — NFPA 96 Sec. 7.4" },
+    { text: "Ventilador extractor en buen estado y operativo", sub: "Con motor accesible para mantenimiento — NFPA 96 Cap. 5" },
+    { text: "Sistema de extinción automático sobre zona de cocción", sub: "Agente limpio o Ansul sobre freidoras/parrillas — NFPA 96 Cap. 10" },
+    { text: "Extintor tipo K visible y con carga vigente", sub: "Para fuegos de aceites y grasas — cerca de la cocina" },
+    { text: "Mantenimiento/limpieza de campana y ductos documentado", sub: "Mínimo 1 vez/año por personal certificado — NFPA 96 Sec. 11.4" },
+    { text: "Sistema de corte automático de gas al activar extinción", sub: "Interlock gas — NFPA 96 Sec. 10.5" },
+    { text: "Separación de 457 mm (18\") entre campana y equipos", sub: "Distancia mínima de captura — NFPA 96 Sec. 4.1.1" },
+    { text: "Acceso de mantenimiento al ventilador extractor", sub: "Panel o puerta de acceso libre — NFPA 96 Cap. 5" },
+  ],
+  2: [ // Res. 2674
+    { text: "Registro sanitario / Concepto sanitario vigente", sub: "Expedido por Secretaría de Salud o INVIMA — Res. 2674 Cap. VIII" },
+    { text: "Manipuladores con certificado de capacitación al día", sub: "Plan anual con evidencias — Res. 2674 Art. 14" },
+    { text: "Certificados médicos de salud del personal vigentes", sub: "Apto para manipulación de alimentos — Res. 2674 Art. 14" },
+    { text: "Área de cocción separada de recepción y bodega", sub: "Flujo lógico sin contaminación cruzada — Res. 2674 Art. 7" },
+    { text: "Equipos y superficies de contacto en acero inoxidable", sub: "De fácil limpieza y desinfección — Res. 2674 Art. 8" },
+    { text: "Control de temperaturas documentado (frío y caliente)", sub: "Registros diarios — Res. 2674 Art. 22" },
+    { text: "Agua potable verificada (potabilidad)", sub: "Suministro continuo y con presión adecuada — Ley 9/1979 Art. 51" },
+    { text: "Lavamanos exclusivo para manos en área de cocina", sub: "Con jabón y toallas desechables — Res. 2674 Art. 7" },
+    { text: "Rotulación y fechas de vencimiento en alimentos almacenados", sub: "Sistema FEFO — Res. 2674 Art. 22" },
+    { text: "Programa de saneamiento documentado (PSB)", sub: "Limpieza, desinfección, control de plagas y residuos — Res. 2674 Art. 26" },
+    { text: "Recipientes de basura con tapa y diferenciados", sub: "Orgánicos, reciclables, ordinarios — Ley 9/1979" },
+    { text: "Personal con uniforme, cofia y sin joyas en cocina", sub: "BPM de higiene personal — Res. 2674 Art. 14" },
+  ],
+  3: [ // NSR-10 + Bomberos
+    { text: "Concepto de Bomberos vigente (permiso de funcionamiento)", sub: "Renovación anual — obligatorio en Colombia" },
+    { text: "Rutas de evacuación señalizadas y despejadas", sub: "Señalización fotoluminiscente — NSR-10 y Decreto 1072" },
+    { text: "Salidas de emergencia sin obstrucciones y de fácil apertura", sub: "Barras anti-pánico en puertas — NSR-10 Cap. J" },
+    { text: "Detector de humo y/o calor instalado en cocina", sub: "Conectado a alarma audible — NSR-10 Cap. J" },
+    { text: "Alarma de incendio audible en todo el establecimiento", sub: "NSR-10 y NFPA 72" },
+    { text: "Plan de emergencia y evacuación publicado", sub: "En lugar visible para empleados — Decreto 1072/2015" },
+    { text: "Simulacro de evacuación realizado (mínimo 1/año)", sub: "Con registro de asistencia — Decreto 1072/2015" },
+    { text: "Botiquín de primeros auxilios dotado y accesible", sub: "Resolución 0705/2007" },
+    { text: "Acceso libre para vehículos de emergencia", sub: "Sin obstáculos en fachada — NSR-10" },
+  ],
+  4: [ // Res. 2400
+    { text: "Ventilación adecuada para remover humos y vapores", sub: "Mínimo 10 renovaciones de aire/hora — Res. 2400 Art. 10" },
+    { text: "Temperatura del área de trabajo controlada", sub: "No mayor a 30°C en zonas de trabajo continuo — Res. 2400" },
+    { text: "Iluminación suficiente en todas las zonas de trabajo", sub: "Mínimo 500 lux en zonas de corte y preparación — Res. 2400 Art. 7" },
+    { text: "Pisos antideslizantes en excelente estado (sin huecos)", sub: "Prevención de caídas — Res. 2400 Art. 4" },
+    { text: "EPP disponible y en uso: guantes, delantal, botas", sub: "Elementos de protección personal — Res. 2400" },
+    { text: "Cuchillos y herramientas con porta-cuchillos seguros", sub: "Prevención de cortes — Res. 2400 Cap. III" },
+    { text: "Estantería y bodegas con carga segura y señalizada", sub: "Sin riesgo de volcamiento — Res. 2400 Art. 24" },
+    { text: "Programa de seguridad y salud en el trabajo (SST)", sub: "Resolución 0312/2019 + Decreto 1072/2015" },
+  ],
+  5: [ // Gas y Electricidad
+    { text: "Certificado RETIE vigente de la instalación eléctrica", sub: "Obligatorio en Colombia — RETIE 2013 y actualizaciones" },
+    { text: "Tablero eléctrico con breakers identificados y accesibles", sub: "Sin cables expuestos — RETIE" },
+    { text: "Equipos de gas certificados por instalador habilitado", sub: "Gas natural o GLP — NTC 3838 y Res. CREG" },
+    { text: "Válvulas de corte de gas identificadas y operativas", sub: "Acceso libre en emergencia" },
+    { text: "Detector de gas instalado en zona de cocción", sub: "Alarma sonora y visual" },
+    { text: "Mangueras de gas en buen estado (sin grietas ni vencidas)", sub: "Revisión mínima semestral" },
+    { text: "Conexiones eléctricas de equipos con puesta a tierra", sub: "RETIE — obligatorio en equipos industriales" },
+    { text: "Sin sobrecargas eléctricas (extensiones o multicontactos)", sub: "Riesgo de cortocircuito e incendio" },
+  ],
+  6: [ // Plagas y Residuos
+    { text: "Contrato vigente con empresa de control de plagas", sub: "Empresa certificada INVIMA — Res. 2674 Art. 26" },
+    { text: "Registros de fumigación y desratización archivados", sub: "Mínimo 2 veces/año o según programa — Res. 2674" },
+    { text: "Sin presencia visible de plagas (cucarachas, roedores)", sub: "Inspección visual periódica" },
+    { text: "Puntos de cebo o trampas instalados según plano", sub: "Programa integrado de control" },
+    { text: "Almacenamiento de alimentos sellados y elevados del piso", sub: "Mínimo 15 cm del piso — Res. 2674 Art. 22" },
+    { text: "Canecas de basura lavadas y desinfectadas periódicamente", sub: "Ley 9/1979 y POA municipal" },
+    { text: "Ruta de recolección de residuos sólidos activa", sub: "Contrato con operador de aseo del municipio" },
+    { text: "Grasas y aceites usados con disposición autorizada", sub: "No verter al alcantarillado — Decreto 3930/2010" },
+  ]
+};
+
+const SECTION_COLORS = {1:'#c0392b',2:'#1a6b3a',3:'#c8973a',4:'#1a4a6b',5:'#6b3a6b',6:'#3a6b3a'};
+
+// ============================================================
+// RENDERIZAR CHECKLISTS
+// ============================================================
+function renderChecklists() {
+  for (let s = 1; s <= 6; s++) {
+    const container = document.getElementById('check' + s);
+    const items = CHECKLISTS[s];
+    container.innerHTML = '';
+    items.forEach((item, i) => {
+      const num = String(i + 1).padStart(2, '0');
+      const row = document.createElement('div');
+      row.className = 'check-item';
+      row.innerHTML = `
+        <div class="check-num">${num}</div>
+        <div class="check-text">
+          <strong>${item.text}</strong>
+          <span>${item.sub}</span>
+        </div>
+        <div class="check-select">
+          <select id="s${s}_${i}" onchange="onSelectChange(this)">
+            <option value="">— Estado —</option>
+            <option value="ok">✅ Cumple</option>
+            <option value="pendiente">⚠️ Pendiente</option>
+            <option value="critico">🔴 Crítico</option>
+            <option value="na">— N/A —</option>
+          </select>
+        </div>
+        <div class="check-obs">
+          <input type="text" id="obs_s${s}_${i}" placeholder="Observación...">
+        </div>
+      `;
+      container.appendChild(row);
+    });
+  }
+}
+
+// ============================================================
+// EVENTOS Y CÁLCULOS
+// ============================================================
+function onSelectChange(sel) {
+  sel.className = 'check-select'; // reset
+  const v = sel.value;
+  if (v === 'ok') sel.className = 'ok';
+  else if (v === 'pendiente') sel.className = 'pendiente';
+  else if (v === 'critico') sel.className = 'critico';
+  else if (v === 'na') sel.className = 'na';
+  updateStats();
+}
+
+function updateStats() {
+  let totalOk = 0, totalPend = 0, totalCrit = 0, totalNa = 0, totalFilled = 0, totalItems = 0;
+
+  for (let s = 1; s <= 6; s++) {
+    let ok = 0, pend = 0, crit = 0, na = 0;
+    const items = CHECKLISTS[s];
+    items.forEach((_, i) => {
+      const sel = document.getElementById(`s${s}_${i}`);
+      if (!sel) return;
+      const v = sel.value;
+      totalItems++;
+      if (v === 'ok') { ok++; totalOk++; totalFilled++; }
+      else if (v === 'pendiente') { pend++; totalPend++; totalFilled++; }
+      else if (v === 'critico') { crit++; totalCrit++; totalFilled++; }
+      else if (v === 'na') { na++; totalNa++; totalFilled++; }
+    });
+
+    const statsEl = document.getElementById('stats' + s);
+    statsEl.innerHTML = '';
+    if (ok > 0) statsEl.innerHTML += `<span class="stat-pill stat-ok">${ok} ✅</span>`;
+    if (pend > 0) statsEl.innerHTML += `<span class="stat-pill stat-pendiente">${pend} ⚠️</span>`;
+    if (crit > 0) statsEl.innerHTML += `<span class="stat-pill stat-critico">${crit} 🔴</span>`;
+  }
+
+  document.getElementById('totalOk').textContent = totalOk;
+  document.getElementById('totalPend').textContent = totalPend;
+  document.getElementById('totalCrit').textContent = totalCrit;
+  document.getElementById('totalNa').textContent = totalNa;
+
+  // Progreso: ok + na cuentan como cumplidos para el %
+  const cumplidos = totalOk + totalNa;
+  const pct = totalFilled > 0 ? Math.round((cumplidos / totalItems) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+
+  // Alerta crítica
+  document.getElementById('alertaCritica').classList.toggle('visible', totalCrit > 0);
+}
+
+function toggleSection(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ============================================================
+// GUARDAR / CARGAR / LIMPIAR
+// ============================================================
+function recolectarDatos() {
+  const datos = {
+    ts: new Date().toISOString(),
+    establecimiento: {
+      nombre: document.getElementById('nombre').value,
+      nit: document.getElementById('nit').value,
+      direccion: document.getElementById('direccion').value,
+      ciudad: document.getElementById('ciudad').value,
+      telefono: document.getElementById('telefono').value,
+      email: document.getElementById('email').value,
+      tipo: document.getElementById('tipo').value,
+      responsable: document.getElementById('responsable').value,
+      cargo: document.getElementById('cargo').value,
+      fechaDilig: document.getElementById('fechaDilig').value,
+      invima: document.getElementById('invima').value,
+      vigenciaSanitario: document.getElementById('vigenciaSanitario').value,
+    },
+    checks: {},
+    fechas: {},
+    observaciones: document.getElementById('observaciones').value,
+    planAccion: document.getElementById('planAccion').value,
+    fechaCompromiso: document.getElementById('fechaCompromiso').value,
+    calGeneral: document.getElementById('calGeneral').value,
+    proxRevision: document.getElementById('proxRevision').value,
+  };
+
+  for (let s = 1; s <= 6; s++) {
+    datos.checks[s] = [];
+    CHECKLISTS[s].forEach((_, i) => {
+      const sel = document.getElementById(`s${s}_${i}`);
+      const obs = document.getElementById(`obs_s${s}_${i}`);
+      datos.checks[s].push({ v: sel ? sel.value : '', o: obs ? obs.value : '' });
+    });
+  }
+
+  // Fechas de frecuencia
+  const fechaIds = ['f1_1','f1_2','f1_3','f1_4','f2_1','f2_2','f2_3','f2_4','f3_1','f3_2','f3_3','f5_1','f5_2','f5_3','f6_1','f6_2','f6_3'];
+  fechaIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) datos.fechas[id] = el.value;
+  });
+
+  return datos;
+}
+
+function aplicarDatos(datos) {
+  if (!datos) return;
+  const e = datos.establecimiento;
+  if (e) {
+    Object.keys(e).forEach(k => {
+      const el = document.getElementById(k);
+      if (el) el.value = e[k] || '';
+    });
+  }
+
+  if (datos.checks) {
+    for (let s = 1; s <= 6; s++) {
+      if (datos.checks[s]) {
+        datos.checks[s].forEach((item, i) => {
+          const sel = document.getElementById(`s${s}_${i}`);
+          const obs = document.getElementById(`obs_s${s}_${i}`);
+          if (sel) { sel.value = item.v || ''; onSelectChange(sel); }
+          if (obs) obs.value = item.o || '';
+        });
+      }
+    }
+  }
+
+  if (datos.fechas) {
+    Object.keys(datos.fechas).forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = datos.fechas[id] || '';
+    });
+  }
+
+  ['observaciones','planAccion','fechaCompromiso','calGeneral','proxRevision'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && datos[id] !== undefined) el.value = datos[id];
+  });
+
+  updateStats();
+}
+
+function guardarFormulario() {
+  const datos = recolectarDatos();
+  // Guardar último
+  localStorage.setItem('cumplimiento_actual', JSON.stringify(datos));
+  // Agregar al historial
+  let historial = JSON.parse(localStorage.getItem('cumplimiento_historial') || '[]');
+  historial.unshift({ ts: datos.ts, nombre: datos.establecimiento.nombre, cal: datos.calGeneral });
+  if (historial.length > 20) historial = historial.slice(0, 20);
+  localStorage.setItem('cumplimiento_historial', JSON.stringify(historial));
+  renderHistorial();
+  alert('✅ Formulario guardado correctamente en este dispositivo.');
+}
+
+function cargarUltimo() {
+  const raw = localStorage.getItem('cumplimiento_actual');
+  if (!raw) { alert('No hay formulario guardado.'); return; }
+  aplicarDatos(JSON.parse(raw));
+  alert('📂 Último formulario cargado.');
+}
+
+function limpiarFormulario() {
+  if (!confirm('¿Desea limpiar todos los campos del formulario? Esta acción no se puede deshacer.')) return;
+  document.querySelectorAll('input, select, textarea').forEach(el => {
+    if (el.type === 'checkbox') el.checked = false;
+    else el.value = '';
+  });
+  document.querySelectorAll('.check-select select').forEach(sel => {
+    sel.className = '';
+  });
+  updateStats();
+}
+
+function renderHistorial() {
+  const historial = JSON.parse(localStorage.getItem('cumplimiento_historial') || '[]');
+  const container = document.getElementById('historialList');
+  if (historial.length === 0) {
+    container.innerHTML = '<div class="historial-empty">No hay registros guardados aún.</div>';
+    return;
+  }
+  container.innerHTML = historial.map(h => {
+    const d = new Date(h.ts);
+    const fecha = d.toLocaleDateString('es-CO', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    return `<div class="historial-item">
+      <span><strong>${h.nombre || 'Sin nombre'}</strong> — ${h.cal || 'Sin calificación'}</span>
+      <span class="historial-fecha">📅 ${fecha}</span>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// INICIALIZAR
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  renderChecklists();
+  updateStats();
+  renderHistorial();
+  document.getElementById('fechaDilig').value = new Date().toISOString().split('T')[0];
+  // Abrir primera sección por defecto
+  document.getElementById('sec1').classList.add('open');
+});
+</script>
+</body>
+</html>
